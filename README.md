@@ -63,7 +63,7 @@ planning-rh/
 ## 🖥️ Aperçu de l'Expérience Utilisateur
 
 ```text
-=== Gestion RH & Plannings ===
+=== Planning-RH ===
 1. Ajouter un employé
 2. Enregistrer des heures (shift)
 3. Afficher le planning de la semaine
