@@ -1,43 +1,96 @@
-# planning-rh
+# Planning-rh
 
 ## Description
 
-Mini-logiciel console de gestion du personnel et de suivi des heures de travail, conçu pour faire respecter les quotas légaux et contractuels (restauration, commerce).
+Application console développée en Java permettant d'administrer une équipe de salariés et de planifier leurs heures de travail dans le respect strict des contrats (temps plein, temps partiel) et des quotas légaux. Le système agit comme un garde-fou RH en bloquant toute saisie non conforme ou en dépassement de plafond.
 
 ---
 
-## Objectifs du projet
+## 💡 Vision du Projet
 
-- Modéliser une organisation d'équipe avec différents types de contrats.
-- Mettre en œuvre les principes fondamentaux de la programmation orientée objet :
-  - **Encapsulation :** protection stricte de l'état interne des salariés (compteur d'heures) et validation des saisies.
-  - **Héritage :** factorisation des attributs et comportements communs via une classe de base.
-  - **Polymorphisme :** application de plafonds horaires dynamiques selon le type de contrat.
+* **Respect strict de l'encapsulation** : protection totale du compteur d'heures (`heuresEffectuees`). Aucun accès direct ni modification arbitraire ; chaque ajout passe par un sas de validation métier.
 
----
+* **Architecture orientée objet robuste** : utilisation de l'héritage et du polymorphisme via une classe abstraite `Employe` et des contrats spécialisés (`TempsPlein`, `TempsPartiel`) appliquant dynamiquement leurs propres règles de plafond.
 
-## Règles Métiers
-
-- **Types de contrats :**
-  - **Temps plein :** plafonné à 35 h / semaine.
-  - **Temps partiel :** plafonné à 24 h / semaine (ou quota contractuel défini).
-- **Contrôle des heures (`ajouterHeures`) :**
-  - Rejet de toute valeur négative ou nulle.
-  - Rejet de tout ajout entraînant un dépassement du plafond hebdomadaire de l'employé.
-- **Cycle hebdomadaire :** possibilité de réinitialiser le compteur à zéro pour une nouvelle semaine.
+* **Zéro dépendance externe** : développement en Java pur standard (JDK standard) sans framework lourd, exécutable directement en ligne de commande.
 
 ---
 
-## Structure du Projet
+## 🎯 Fonctionnalités principales
+
+1. **Enregistrer un employé** : création d'un salarié avec son identifiant, son nom, son prénom, son taux horaire et son type de contrat.
+
+2. **Ajouter un shift d'heures** : saisie du nombre d'heures effectuées avec rejet automatique des valeurs négatives et des dépassements de quota contractuel.
+
+3. **Consulter l'état de l'équipe** : affichage du récapitulatif des heures effectuées, des heures restantes disponibles et du statut de conformité.
+
+4. **Clôturer et réinitialiser la semaine** : remise à zéro contrôlée des compteurs d'heures pour basculer sur un nouveau cycle de planning.
+
+---
+
+## 🛠️ Stack Technique
+
+- **Langage** : Java
+
+- **Paradigme** : Programmation orientée objet (encapsulation, abstraction, polymorphisme)
+
+- **Environnement** : Linux / WSL (Ubuntu)
+
+- **Interface** : Console interactive (CLI / Terminal)
+
+- **Versionnement** : Git & GitHub
+
+---
+
+## 📂 Architecture du Projet
 
 ```text
 planning-rh/
-├── bin/                 # Fichiers compilés (.class)
-├── src/                 # Code source Java (.java)
-│   ├── Employe.java       # Classe abstraite de base
-│   ├── TempsPlein.java    # Salarié à temps plein (plafond 35 h)
-│   ├── TempsPartiel.java  # Salarié à temps partiel (plafond 24 h)
-│   ├── GestionRH.java     # Administration de l'équipe et planning
-│   └── Main.java          # Point d'entrée et scénarios de test
-└── README.md
+│
+├── .gitignore          # Fichiers exclus du versionnement (*.class, bin/)
+├── README.md           # Documentation du projet
+├── bin/                # Bytecode compilé (.class)
+└── src/                # Code source Java
+    ├── Employe.java       # Classe mère abstraite (état, sas de validation)
+    ├── TempsPlein.java    # Spécialisation temps plein (plafond 35 h)
+    ├── TempsPartiel.java  # Spécialisation temps partiel (plafond 24 h)
+    ├── GestionRH.java     # Moteur de gestion de la liste des salariés
+    └── Main.java          # Point d'entrée et scénarios de simulation
 ```
+
+---
+
+## 🖥️ Aperçu de l'Expérience Utilisateur
+
+```text
+=== Gestion RH & Plannings ===
+1. Ajouter un employé
+2. Enregistrer des heures (shift)
+3. Afficher le planning de la semaine
+4. Réinitialiser la semaine
+5. Quitter
+
+--- Enregistrement d'un shift ---
+ID de l'employé : EMP-02 (Bob - Temps partiel, max 24.0h)
+Heures actuelles : 20.0h
+Nombre d'heures à ajouter : 6.0
+
+❌ Erreur : Ajout refusé. 
+Le total (26.0h) dépasse le plafond autorisé de 24.0h pour ce contrat.
+Compteur inchangé : 20.0h
+```
+
+---
+
+## 🚀 Lancement Rapide
+
+1. Cloner le projet sur votre machine
+
+2. Compiler le projet :
+     ```bash
+        javac -d bin src/*.java     
+    ```
+3. Lancer l'application :
+     ```bash
+    java -cp bin Main
+    ```
